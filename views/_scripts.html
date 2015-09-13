@@ -1,0 +1,22 @@
+<script src='/vendor/jquery/dist/jquery.js'></script>
+<script src='/vendor/bootstrap/dist/js/bootstrap.js'></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{apiKey}}&sensor=true"></script> 
+  <script>
+  {% autoescape false %}
+  var data = {};
+  data.Hotels = {{ hotels | json }};
+  data.Hotels.forEach(function(hotel){
+      hotel.label = 'Hotels';
+  });
+  data.Restaurants = {{ restaurants | json }};
+  data.Restaurants.forEach(function(restaurant){
+      restaurant.label = 'Restaurants';
+  });
+  data.Activities = {{ activities | json }};
+  data.Activities.forEach(function(activity){
+      activity.label = 'Activities'
+  });
+  {% endautoescape %}
+  </script>
+<script src='/javascripts/app.js'></script>
+<script src='/javascripts/planner.js'></script>

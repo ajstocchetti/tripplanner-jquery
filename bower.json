@@ -1,0 +1,12 @@
+{
+  "name": "tripplanner-ui-static",
+  "version": "0.0.0",
+  "homepage": "https://github.com/FullstackAcademy/1507F-Library",
+  "authors": [
+    "Eric P. Katz <ericpkatz@gmail.com>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "~3.3.5"
+  }
+}

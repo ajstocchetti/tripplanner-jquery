@@ -1,0 +1,25 @@
+$menuHeight: 50;
+$lightGrey: #efefef;
+$darkGrey: #333;
+
+body {
+  margin-top: 60px;
+}
+
+#map {
+  height: 500px;
+}
+
+
+#dayPicker {
+  font-size: smaller;
+}
+
+.glyphicon {
+  font-size: 24px;
+}
+
+#addDayButton, .add-item, #removeDayButton {
+  cursor: pointer;
+}
+

@@ -1,0 +1,12 @@
+<div class='panel panel-default'>
+  <div class='panel-heading text-center'>
+    <strong>Your Itinerary</strong>
+  </div>
+  <div class='panel-body'>
+    {% for label in ['Hotels', 'Restaurants', 'Activities'] %}
+    <strong>{{ label }}</strong>
+    <ul id='{{label}}Itinerary' class='list-group'>
+    </ul>
+    {% endfor %}
+  </div>
+</div>

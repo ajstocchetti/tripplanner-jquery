@@ -1,0 +1,21 @@
+{
+  "name": "tripplanner-ui-static",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "API_KEY=my_key nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^2.10.0",
+    "chalk": "^1.1.1",
+    "express": "^4.13.3",
+    "gulp": "^3.9.0",
+    "gulp-sass": "^2.0.4",
+    "mongoose": "^4.1.6",
+    "swig": "^1.4.2"
+  }
+}
