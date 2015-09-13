@@ -51,13 +51,7 @@ function addEvent() {
   var theEvent = new tripEvent(type, id);
   if(type === "Hotels") {
     clearHotels();
-    // removeMarker(type, itinerary[dayNum][type][theEvent.eventId]);
-    // itinerary[dayNum][type][theEvent.eventId] = theEvent;
-  } //else {
-    // itinerary[dayNum][type].push(theEvent);
-  //   var eventId = theEvent.eventId
-  //   itinerary[dayNum][type][eventId] = theEvent;
-  // }
+  }
   itinerary[dayNum][type][theEvent.eventId] = theEvent;
   updateDisplay(type, theEvent)
 }
@@ -107,12 +101,11 @@ function updateDisplay(type, theEvent) {
   remBtn.on('click', removeEventClick)
   disp.text(theEvent.eventObj.name).attr('data-eventId', theEvent.eventId);
   disp.append(remBtn)
-  // if(type === "Hotels") {
-  //   ul.empty();
-  // }
   ul.append(disp);
   // Add the marker to the map by calling setMap()
   theEvent.marker.setMap(window.map);
+  window.map.setZoom(15)
+  window.map.setCenter(theEvent.marker.position);
 }
 
 
@@ -135,9 +128,6 @@ function setDayOnPage(dayNum) {
 
 function forWholeDay(dayNum, callBack) {
   for ( var type in itinerary[dayNum]) {
-    // for (var x=0; x<itinerary[dayNum][type].length; x++) {
-    //   callBack(type, itinerary[dayNum][type][x]);
-    // }
     for (var someEvent in itinerary[dayNum][type]) {
       callBack(type, itinerary[dayNum][type][someEvent]);
     }
@@ -171,15 +161,10 @@ function removeEventClick() {
 }
 function removeEvent(type, eventId, dayNum) {
   var dayNum = dayNum || getDayFromPage();
-  var ndx = -1;
-  for (var x=0; x< itinerary[dayNum][type].length; x++ ) {
-    if (itinerary[dayNum][type][x].eventId === eventId) {
-      ndx = x;
-      return;
-    }
-  }
-  if (ndx >= 0) {
-    itinerary[dayNum][type].splice(x,1);
-    changeDay(dayNum)
-  }
+  // remove the li
+  var li = $("li[data-eventid="+eventId+"]").remove();
+  // remove the marker
+  removeMarker(type, itinerary[dayNum][type][eventId])
+  // remove from itinerary
+  delete itinerary[dayNum][type][eventId];
 }
