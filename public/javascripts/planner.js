@@ -65,7 +65,16 @@ function tripEvent(type, id) {
   var lat = this.eventObj.place[0].location[0];
   var long = this.eventObj.place[0].location[1];
   var latLng = new google.maps.LatLng(lat, long);
+  var image = "";
+  if(type == "Hotels") {
+    image = "images/hotel.png";
+  } else if (type == "Restaurants") {
+    image = "/images/restaurant.png";
+  } else {
+    image = "/images/activity.png";
+  }
   this.marker = new google.maps.Marker({
+    icon: image,
     position: latLng,
     title: this.eventObj.name,
     center: latLng
