@@ -13,9 +13,9 @@ $(document).ready(function() {
 function addDay() {
   var dayNum = itinerary.length;
   var newDay = {
-    Restaurants: [],
-    Hotels: [],
-    Activities: []
+    Restaurants: {},
+    Hotels: {},
+    Activities: {}
   };
   itinerary.push(newDay);
   var li = $("<li></li>");
@@ -50,11 +50,15 @@ function addEvent() {
   var dayNum = getDayFromPage();
   var theEvent = new tripEvent(type, id);
   if(type === "Hotels") {
-    removeMarker(type, itinerary[dayNum][type][0]);
-    itinerary[dayNum][type] = [theEvent];
-  } else {
-    itinerary[dayNum][type].push(theEvent);
-  }
+    clearHotels();
+    // removeMarker(type, itinerary[dayNum][type][theEvent.eventId]);
+    // itinerary[dayNum][type][theEvent.eventId] = theEvent;
+  } //else {
+    // itinerary[dayNum][type].push(theEvent);
+  //   var eventId = theEvent.eventId
+  //   itinerary[dayNum][type][eventId] = theEvent;
+  // }
+  itinerary[dayNum][type][theEvent.eventId] = theEvent;
   updateDisplay(type, theEvent)
 }
 
@@ -103,9 +107,9 @@ function updateDisplay(type, theEvent) {
   remBtn.on('click', removeEventClick)
   disp.text(theEvent.eventObj.name).attr('data-eventId', theEvent.eventId);
   disp.append(remBtn)
-  if(type === "Hotels") {
-    ul.empty();
-  }
+  // if(type === "Hotels") {
+  //   ul.empty();
+  // }
   ul.append(disp);
   // Add the marker to the map by calling setMap()
   theEvent.marker.setMap(window.map);
@@ -131,11 +135,31 @@ function setDayOnPage(dayNum) {
 
 function forWholeDay(dayNum, callBack) {
   for ( var type in itinerary[dayNum]) {
-    for (var x=0; x<itinerary[dayNum][type].length; x++) {
-      callBack(type, itinerary[dayNum][type][x]);
+    // for (var x=0; x<itinerary[dayNum][type].length; x++) {
+    //   callBack(type, itinerary[dayNum][type][x]);
+    // }
+    for (var someEvent in itinerary[dayNum][type]) {
+      callBack(type, itinerary[dayNum][type][someEvent]);
     }
   }
 }
+
+
+
+
+
+
+function clearHotels() {
+  var dayNum = getDayFromPage();
+  for (var hotel in itinerary[dayNum].Hotels) {
+    removeMarker("Hotels", itinerary[dayNum]["Hotels"][hotel]);
+    delete itinerary[dayNum]["Hotels"][hotel];
+  }
+  $("#HotelsItinerary").empty();
+}
+
+
+
 
 
 
