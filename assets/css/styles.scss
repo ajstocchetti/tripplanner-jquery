@@ -2,6 +2,8 @@ $menuHeight: 50;
 $lightGrey: #efefef;
 $darkGrey: #333;
 
+$thatBlueColor: #337ab7;
+
 body {
   margin-top: 60px;
 }
@@ -19,7 +21,31 @@ body {
   font-size: 24px;
 }
 
-#addDayButton, .add-item, #removeDayButton {
+#addDayButton, .add-item, #removeDayButton, .remove-event {
   cursor: pointer;
 }
 
+a.dayLinks {
+  border: 2px solid $thatBlueColor;
+  border-radius: 4px;
+}
+.eventListItem {
+  list-style-type: none;
+  margin-left: 10px;
+}
+
+
+button.remove-event {
+  margin-left: 15px;
+  color: #fff;
+  background-color: #d9534f;
+  border-color: #d43f3a;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 42%;
+  outline: none !important;
+}
