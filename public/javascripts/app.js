@@ -1,9 +1,8 @@
 function initialize_gmaps() {
     // initialize new google maps LatLng object
-    var myLatlng = new google.maps.LatLng(40.705189,-74.009209);
     // set the map options hash
     var mapOptions = {
-        center: myLatlng,
+        // center: myLatlng,
         zoom: 13,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };

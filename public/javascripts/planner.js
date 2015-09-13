@@ -57,6 +57,7 @@ function removeDay() {
     dayNum = itinerary.length-1;
   }
   changeDay(dayNum);
+  // $("a[data-day="+dayNum+"]").trigger('click')
 }
 
 function changeDayWrapper() {
