@@ -4,11 +4,15 @@ $(document).ready(function() {
   // add click events
   $("#addDayButton").on('click', addDay);
   $(".add-item").on('click', addEvent);
-
+  $("#removeDayButton").on('click', removeDay);
   // initialize page
+  addDayOne();
+})
+
+function addDayOne() {
   $("#addDayButton").trigger('click');
   $("#dayList > li > a").trigger('click');
-})
+}
 
 function addDay() {
   var dayNum = itinerary.length;
@@ -18,15 +22,48 @@ function addDay() {
     Activities: {}
   };
   itinerary.push(newDay);
+  addDayButton(dayNum);
+}
+function addDayButton(dayNum) {
   var li = $("<li></li>");
   var link = $("<a></a>").addClass('dayLinks').text("Day "+dayNum).attr('data-day', dayNum);
-  link.on('click', changeDay);
+  link.on('click', changeDayWrapper);
   li.append(link);
   $('#dayList').append(li);
 }
+function removeDay() {
+  if(itinerary.length < 2) {
+    console.log("there are no days to remove");
+    return;
+  }
+  var dayNum = getDayFromPage();
+  // clear out existing display
+  changeDay(0);
+  // remove day from itinerary
+  itinerary.splice(dayNum, 1);
+  // update day list itmes
+  $('#dayList').empty();
+  for (var x=1; x < itinerary.length; x++) {
+    addDayButton(x);
+  }
+  // show the next day
+  // case 1: no days left
+  if (itinerary.length < 2) {
+    addDayOne();
+    return;
+  }
+  // case: last day was removed (but there still is 1+ days
+  if (Number(dayNum)+1 >= itinerary.length) { // add 1 to account for day 0
+    dayNum = itinerary.length-1;
+  }
+  changeDay(dayNum);
+}
 
-
-function changeDay() {
+function changeDayWrapper() {
+  var newDay = $(this).attr('data-day');
+  changeDay(newDay);
+}
+function changeDay(dayNum) {
   // remove all the old shit
   $('#dayList > li').removeClass('active');
   $('.list-group').empty();
@@ -34,9 +71,9 @@ function changeDay() {
   forWholeDay(oldDay, removeMarker)
 
   // update to current day
-  var dayNum = $(this).attr('data-day');
+  // var dayNum = $(this).attr('data-day');
   setDayOnPage(dayNum);
-  $(this).parent().addClass('active');
+  $("a[data-day="+dayNum+"]").parent().addClass('active');
   forWholeDay(dayNum, updateDisplay);
   zoomToExtents(dayNum);
 }
