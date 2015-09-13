@@ -38,6 +38,7 @@ function changeDay() {
   setDayOnPage(dayNum);
   $(this).parent().addClass('active');
   forWholeDay(dayNum, updateDisplay);
+  zoomToExtents(dayNum);
 }
 
 
@@ -53,7 +54,8 @@ function addEvent() {
     clearHotels();
   }
   itinerary[dayNum][type][theEvent.eventId] = theEvent;
-  updateDisplay(type, theEvent)
+  updateDisplay(type, theEvent);
+  zoomToEvent(theEvent);
 }
 
 function tripEvent(type, id) {
@@ -64,8 +66,7 @@ function tripEvent(type, id) {
   var long = this.eventObj.place[0].location[1];
   var latLng = new google.maps.LatLng(lat, long);
   this.marker = new google.maps.Marker({
-    // position: new google.maps.LatLng(lat, long),
-position: latLng,
+    position: latLng,
     title: this.eventObj.name,
     center: latLng
   })
@@ -104,8 +105,35 @@ function updateDisplay(type, theEvent) {
   ul.append(disp);
   // Add the marker to the map by calling setMap()
   theEvent.marker.setMap(window.map);
-  window.map.setZoom(15)
+}
+function zoomToEvent(theEvent) {
+  window.map.setZoom(15);
   window.map.setCenter(theEvent.marker.position);
+}
+function zoomToExtents(dayNum) {
+  // loop through all events for day
+  var boundsInit = new google.maps.LatLngBounds();
+  var x = {
+    iteration: 0,
+    bounds: new google.maps.LatLngBounds()
+  }
+  x = forWholeDay(dayNum, function(type, theEvent, b) {
+    x.iteration++;
+    x.bounds.extend(theEvent.marker.position);
+    return x;
+  }, x);
+  if( x.iteration > 0) {
+    window.map.fitBounds(x.bounds);
+    var zoomMax = 14;
+    if (window.map.zoom > zoomMax) {
+      window.map.setZoom(zoomMax);
+    }
+  }
+  else {
+    var resetLatLong = new google.maps.LatLng(40.705189,-74.009209);
+    window.map.setCenter(resetLatLong);
+    window.map.setZoom(13)
+  }
 }
 
 
@@ -126,12 +154,13 @@ function setDayOnPage(dayNum) {
   $('#currentDay').attr('data-dayNum', dayNum);
 }
 
-function forWholeDay(dayNum, callBack) {
+function forWholeDay(dayNum, callBack, initial) {
   for ( var type in itinerary[dayNum]) {
     for (var someEvent in itinerary[dayNum][type]) {
-      callBack(type, itinerary[dayNum][type][someEvent]);
+      initial = callBack(type, itinerary[dayNum][type][someEvent], initial);
     }
   }
+  return initial;
 }
 
 
