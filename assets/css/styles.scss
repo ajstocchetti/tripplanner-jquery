@@ -21,6 +21,11 @@ body {
   font-size: 24px;
 }
 
+
+#currentDay {
+  display: inline;
+}
+
 #addDayButton, .add-item, #removeDayButton, .remove-event {
   cursor: pointer;
 }

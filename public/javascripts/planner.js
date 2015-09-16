@@ -11,7 +11,7 @@ $(document).ready(function() {
 
 function addDayOne() {
   $("#addDayButton").trigger('click');
-  $("#dayList > li > a").trigger('click');
+  // $("#dayList > li > a").trigger('click');
 }
 
 function addDay() {
@@ -23,6 +23,7 @@ function addDay() {
   };
   itinerary.push(newDay);
   addDayButton(dayNum);
+  changeDay(dayNum);
 }
 function addDayButton(dayNum) {
   var li = $("<li></li>");
